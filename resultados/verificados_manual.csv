@@ -1,0 +1,5 @@
+uuid,arquivo,status,detectado_automatico,confirmado_manual,tem_assinatura
+394409443-CONSULTA-N-pdf,394409443-CONSULTA-N-pdf.json,confirmado,sim,sim,sim
+52179369-CREMESP-Conselho-Regional-de-Medicina-do-Estado-de-Sao-Paulo,52179369-CREMESP-Conselho-Regional-de-Medicina-do-Estado-de-Sao-Paulo.json,sem_assinatura,não,não,
+577280646-Document,577280646-Document.json,sem_assinatura,não,não,
+581976386-2cf3b40c84d8afa194df5dd0c4c509b5,581976386-2cf3b40c84d8afa194df5dd0c4c509b5.json,sem_assinatura,não,não,

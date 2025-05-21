@@ -1,0 +1,58 @@
+from flask import Flask, jsonify
+from playwright.sync_api import sync_playwright
+import json
+import os
+from document_checker import verificar_assinatura
+
+COOKIES_PATH = "cookies/cookies.json"
+
+app = Flask(__name__)
+
+@app.route("/verificar_scribd", methods=["GET"])
+def verificar_scribd():
+    resultados = []
+
+    with sync_playwright() as p:
+        navegador = p.chromium.launch(headless=True)
+        contexto = navegador.new_context()
+
+        # ✅ Carregar cookies do login salvo, se existir
+        if os.path.exists(COOKIES_PATH):
+            with open(COOKIES_PATH, "r") as f:
+                cookies = json.load(f)
+            contexto.add_cookies(cookies)
+
+        pagina = contexto.new_page()
+        pagina.goto("https://pt.scribd.com/search?query=prescricao")
+        pagina.wait_for_timeout(5000)
+
+        # 🔍 Pega até 5 links de resultado da busca
+        links = pagina.query_selector_all("a.search_result_link")
+
+        for link in links[:5]:
+            try:
+                titulo = link.inner_text().strip()
+                href = link.get_attribute("href")
+                url_completo = f"https://pt.scribd.com{href}"
+                
+                pagina.goto(url_completo)
+                pagina.wait_for_timeout(3000)
+
+                texto = pagina.content()
+                tem_assinatura = verificar_assinatura(texto=texto)
+
+                resultados.append({
+                    "nome": titulo,
+                    "link": url_completo,
+                    "tem_assinatura_digital": tem_assinatura
+                })
+            except Exception as e:
+                print(f"Erro ao processar {href}: {e}")
+
+        navegador.close()
+
+    return jsonify(resultados)
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
