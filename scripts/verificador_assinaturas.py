@@ -1,21 +1,29 @@
 import tkinter as tk
 from tkinter import messagebox
+from PIL import ImageTk, Image
+from pdf2image import convert_from_path
 import json, os, subprocess, platform, csv
 
+
+POPPLER_PATH = r"C:\Users\Mirella Chaves\Desktop\Release-24.08.0-0\poppler-24.08.0\Library\bin"
+
+
+# CONFIGURAÇÕES
 PASTA_JSONS = "./resultados/textos_extraidos"
-PASTA_PDFS  = "./pdfs"
+PASTA_PDFS = "./pdfs"
 ARQUIVO_VERIFICADOS = "./resultados/verificados_manual.json"
 ARQUIVO_CSV = "./resultados/verificados_manual.csv"
+# Verifica se as pastas existem
+if not os.path.exists(PASTA_JSONS):
+    messagebox.showerror("Erro", f"Pasta de JSONs não encontrada:\n{PASTA_JSONS}")
+    exit(1)
+
 
 arquivos = [f for f in os.listdir(PASTA_JSONS) if f.endswith(".json")]
 index_atual = 0
 nome_arquivo_atual = ""
 
-def carregar_json(path):
-    with open(path, encoding="utf-8") as f:
-        dados = json.load(f)
-    return dados.get("texto") if isinstance(dados, dict) else json.dumps(dados, indent=2, ensure_ascii=False)
-
+# FUNÇÕES PRINCIPAIS
 def exportar_para_csv(lista):
     campos = ["uuid", "arquivo", "status", "detectado_automatico", "confirmado_manual", "tem_assinatura"]
     with open(ARQUIVO_CSV, mode="w", encoding="utf-8", newline="") as f:
@@ -66,8 +74,7 @@ def pular_arquivo():
     avancar_arquivo()
 
 def remover_ultima():
-    if not os.path.exists(ARQUIVO_VERIFICADOS):
-        return
+    if not os.path.exists(ARQUIVO_VERIFICADOS): return
     with open(ARQUIVO_VERIFICADOS, "r", encoding="utf-8") as f:
         dados = json.load(f)
     if dados:
@@ -93,15 +100,26 @@ def abrir_pdf():
         messagebox.showerror("Erro", f"Erro ao abrir PDF:\n{e}")
 
 def atualizar_texto():
-    nome_json = arquivos[index_atual]
     global nome_arquivo_atual
+    nome_json = arquivos[index_atual]
     nome_arquivo_atual = nome_json.replace(".json", ".pdf")
-    texto_area.delete("1.0", tk.END)
-    texto_area.insert(tk.END, f"📄 Documento {index_atual + 1} de {len(arquivos)}\n\n")
-    texto_area.insert(tk.END, f"{carregar_json(os.path.join(PASTA_JSONS, nome_json))}")
-    checkbox_var1.set(False)
-    checkbox_var2.set(False)
-    assinatura_var.set("")
+
+    for widget in frame_direita.winfo_children():
+        widget.destroy()
+
+    caminho_pdf = os.path.join(PASTA_PDFS, nome_arquivo_atual)
+    try:
+        imagens = convert_from_path(caminho_pdf, poppler_path=POPPLER_PATH)
+        imagem = imagens[0]
+
+        imagem_tk = ImageTk.PhotoImage(imagem.resize((700, 900)))
+        label = tk.Label(frame_direita, image=imagem_tk)
+        label.image = imagem_tk
+        label.pack()
+
+    except Exception as e:
+        label = tk.Label(frame_direita, text=f"Erro ao carregar PDF:\n{e}", fg="red", bg="#eeeeee")
+        label.pack()
 
 def proximo_arquivo():
     if index_atual >= len(arquivos):
@@ -132,7 +150,7 @@ def avancar_arquivo():
         index_atual += 1
         proximo_arquivo()
 
-# Interface
+# INTERFACE
 janela = tk.Tk()
 janela.title("🔍 Verificação de Assinaturas Digitais")
 janela.geometry("1200x720")
@@ -163,13 +181,6 @@ tk.Button(frame_esquerda, text="🖥️ Abrir PDF", command=abrir_pdf, width=20)
 
 frame_direita = tk.Frame(container)
 frame_direita.pack(side="left", fill="both", expand=True)
-
-texto_area = tk.Text(frame_direita, wrap="word", bg="#eeeeee", font=("Courier", 11))
-texto_area.pack(side="left", fill="both", expand=True)
-
-scrollbar = tk.Scrollbar(frame_direita, command=texto_area.yview)
-scrollbar.pack(side="right", fill="y")
-texto_area.config(yscrollcommand=scrollbar.set)
 
 proximo_arquivo()
 janela.mainloop()

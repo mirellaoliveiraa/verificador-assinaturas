@@ -1,0 +1,82 @@
+[
+  {
+    "uuid": "52179369-CREMESP-Conselho-Regional-de-Medicina-do-Estado-de-Sao-Paulo",
+    "arquivo": "52179369-CREMESP-Conselho-Regional-de-Medicina-do-Estado-de-Sao-Paulo.json",
+    "status": "confirmado",
+    "detectado_automatico": "sim",
+    "confirmado_manual": "sim",
+    "tem_assinatura": "sim"
+  },
+  {
+    "uuid": "577280646-Document",
+    "arquivo": "577280646-Document.json",
+    "status": "confirmado",
+    "detectado_automatico": true,
+    "confirmado_manual": true,
+    "tem_assinatura": "sim"
+  },
+  {
+    "uuid": "581976386-2cf3b40c84d8afa194df5dd0c4c509b5",
+    "arquivo": "581976386-2cf3b40c84d8afa194df5dd0c4c509b5.json",
+    "status": "confirmado",
+    "detectado_automatico": true,
+    "confirmado_manual": true,
+    "tem_assinatura": "sim"
+  },
+  {
+    "uuid": "583056757-consulta-documento-5",
+    "arquivo": "583056757-consulta-documento-5.json",
+    "status": "confirmado",
+    "detectado_automatico": true,
+    "confirmado_manual": true,
+    "tem_assinatura": "sim"
+  },
+  {
+    "uuid": "585089831-Consulta-Documento-1",
+    "arquivo": "585089831-Consulta-Documento-1.json",
+    "status": "confirmado",
+    "detectado_automatico": "sim",
+    "confirmado_manual": "sim",
+    "tem_assinatura": "sim"
+  },
+  {
+    "uuid": "603001385-consulta-documento",
+    "arquivo": "603001385-consulta-documento.json",
+    "status": "confirmado",
+    "detectado_automatico": "sim",
+    "confirmado_manual": "sim",
+    "tem_assinatura": "sim"
+  },
+  {
+    "uuid": "613578642-consulta-documento-6",
+    "arquivo": "613578642-consulta-documento-6.json",
+    "status": "confirmado",
+    "detectado_automatico": "sim",
+    "confirmado_manual": "sim",
+    "tem_assinatura": "sim"
+  },
+  {
+    "uuid": "617845719-consulta-documento-1",
+    "arquivo": "617845719-consulta-documento-1.json",
+    "status": "confirmado",
+    "detectado_automatico": "sim",
+    "confirmado_manual": "sim",
+    "tem_assinatura": "sim"
+  },
+  {
+    "uuid": "617870442-consulta-documento-5",
+    "arquivo": "617870442-consulta-documento-5.json",
+    "status": "confirmado",
+    "detectado_automatico": "sim",
+    "confirmado_manual": "sim",
+    "tem_assinatura": "sim"
+  },
+  {
+    "uuid": "394409443-CONSULTA-N-pdf",
+    "arquivo": "394409443-CONSULTA-N-pdf.json",
+    "status": "sem_assinatura",
+    "detectado_automatico": "não",
+    "confirmado_manual": "sim",
+    "tem_assinatura": ""
+  }
+]
