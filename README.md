@@ -1,75 +1,105 @@
-🔏 Verificador de Assinaturas Digitais em PDFs
+# 🔏 Verificador de Assinaturas Digitais em PDFs
 
+Este projeto é uma ferramenta desenvolvida em **Python**, com interface gráfica em **Tkinter**, para realizar a verificação **manual** de assinaturas digitais em documentos PDF.  
+O sistema exibe o conteúdo dos arquivos como **imagem** (não apenas texto) para facilitar a inspeção visual de assinaturas e elementos gráficos.
 
-Este projeto é uma ferramenta desenvolvida em Python, usando Tkinter, para auxiliar na validação manual de assinaturas digitais em documentos PDF. Ele permite extrair o texto de arquivos PDF e visualizar informações sobre certificados digitais das assinaturas presentes, ajudando o usuário a verificar a autenticidade de documentos assinados digitalmente. Todo o processamento é realizado localmente, garantindo que os arquivos confidenciais não saiam do seu ambiente.
+🛡️ Todo o processamento é realizado **localmente**, garantindo a privacidade e segurança dos arquivos PDF.
 
+---
 
+## 🛠️ Instalação
 
+1. Certifique-se de ter o **Python 3.8 ou superior** instalado no sistema.
 
-🛠️ Instalação
+2. Clone este repositório:
 
-Antes de começar, certifique-se de ter o Python 3.x instalado em seu sistema.
-Clone o repositório ou faça o download do código fonte do projeto.
-Instale as dependências listadas no arquivo requirements.txt. Você pode fazer isso executando o seguinte comando em um terminal na pasta raiz do projeto:
-bash
-Copiar
-Editar
+```bash
+git clone https://github.com/mirellaoliveiraa/verificador-assinaturas.git
+cd verificador-assinaturas
+Instale as dependências:
+
+ 
 pip install -r requirements.txt
-Isso irá instalar todas as bibliotecas Python necessárias para rodar o projeto.
+Baixe o Poppler for Windows:
 
+Extraia o ZIP em um local fixo (ex: Desktop)
 
-📂 Estrutura de Pastas
+Copie o caminho da pasta Library\bin
 
-css
-Copiar
-Editar
+No arquivo verificador_assinaturas.py, edite a linha do POPPLER_PATH, por exemplo:
+
+ 
+POPPLER_PATH = r"C:\Users\SeuUsuario\Desktop\Release-24.08.0-0\poppler-24.08.0\Library\bin"
+ Estrutura do Projeto
+ 
 verificador-assinaturas/
-├── Scripts/
-│   ├── extrair_textos.py
-│   └── verificador_assinaturas.py
+├── pdfs/                         # Coloque aqui os PDFs a serem verificados
 ├── resultados/
-│   ├── verificados_manual.csv
-│   └── verificados_manual.json
-├── pdfs/
-│   └── *coloque aqui os PDFs a serem verificados*
-├── LICENSE
-├── README.md
-└── .gitignore
-A pasta Scripts contém os scripts Python principais: o extractor de textos e o verificador de assinaturas.
-A pasta pdfs deve conter os arquivos PDF que serão analisados pelo sistema.
-A pasta resultados é onde serão gerados os relatórios (CSV/JSON) das verificações manuais realizadas.
+│   ├── verificados_manual.csv    # Resultado da verificação manual (CSV)
+│   └── verificados_manual.json   # Resultado da verificação manual (JSON)
+├── scripts/
+│   ├── extrair_textos.py         # (Opcional) Extrai o texto dos PDFs
+│   └── verificador_assinaturas.py # Interface principal para validação
+├── .gitignore
+├── requirements.txt
+└── README.md
+🧪 Como Usar
+1. Adicione os arquivos PDF
+Coloque todos os arquivos que deseja verificar na pasta pdfs/.
 
+2. Execute o verificador
+ 
+python scripts/verificador_assinaturas.py
+A interface abrirá mostrando cada PDF como imagem.
+Você poderá marcar:
 
-🧪 Como usar
+✅ Se o sistema detectou assinatura digital
 
-Prepare os documentos: coloque todos os arquivos PDF que deseja verificar dentro da pasta pdfs do projeto.
-Extraia o texto dos PDFs (opcional): Execute o script de extração para obter o conteúdo textual dos PDFs e auxiliar na verificação manual do conteúdo:
+👁️ Se confirma manualmente a assinatura
+
+📌 Se o documento tem ou não assinatura digital
+
+Os resultados são salvos automaticamente na pasta resultados/.
+
+3. Consultar resultados
+Verifique os arquivos:
+
+resultados/verificados_manual.csv
+
+resultados/verificados_manual.json
+
+Cada linha contém:
+
+UUID do documento
+
+Nome do arquivo
+
+Status da verificação: confirmado, revisar, sem_assinatura
+
+Detecção automática
+
+Confirmação manual
+
+Indicação de assinatura
+
+4. (Opcional) Extrair textos dos PDFs
+Se quiser apenas visualizar o texto extraído dos PDFs (sem imagem), execute:
+
 bash
 Copiar
 Editar
-python Scripts/extrair_textos.py
-Este comando irá ler cada PDF em pdfs e exibir no console o texto extraído. Recomenda-se analisar esse texto para verificar se há algo suspeito ou oculto no documento antes de proceder à verificação da assinatura.
-Verifique as assinaturas digitais: Execute o script principal de verificação de assinaturas:
-bash
-Copiar
-Editar
-python Scripts/verificador_assinaturas.py
-Ao executar este comando, uma interface gráfica será aberta. Nela, você poderá visualizar as informações das assinaturas digitais presentes (como o nome do signatário, a autoridade certificadora e a validade do certificado) em cada documento PDF. Com base nessas informações e na sua análise manual, marque cada documento como válido ou inválido conforme o resultado da verificação da assinatura digital.
-Resultados da verificação: Após verificar os documentos, o sistema salvará automaticamente um resumo dos resultados na pasta resultados. Consulte os arquivos verificados_manual.csv ou verificados_manual.json para ver o registro de quais PDFs foram marcados como válidos ou inválidos na verificação manual. Cada entrada inclui o nome do arquivo e o status atribuído durante a checagem.
+python scripts/extrair_textos.py
+🔐 Segurança e Privacidade
+🔒 100% local: Nenhum dado é enviado para a internet
 
+🧠 Verificação manual assistida: você tem controle total
 
+📄 Os arquivos PDF não são alterados
 
+📝 Licença
+Este projeto está licenciado sob os termos da Licença MIT.
 
-🛡️ Segurança
-
-Processamento Local: Todo o processamento dos PDFs e das assinaturas digitais é feito localmente. Nenhum dado dos documentos ou informações de certificados é enviado para servidores externos, garantindo a privacidade e confidencialidade dos seus arquivos.
-Verificação Manual: Esta ferramenta não realiza a validação automática da cadeia de certificação das assinaturas. Em vez disso, ela exibe os dados relevantes para que você possa verificar manualmente a autenticidade de cada assinatura digital. Certifique-se de checar o emissor do certificado, a data de validade e outros detalhes importantes de cada assinatura de acordo com as normas de segurança que você confia.
-Integridade dos Arquivos: Os arquivos PDF não são modificados pelo sistema – eles são apenas lidos para extração de informações. Você pode abrir os PDFs normalmente em um leitor de PDF para inspeção adicional, se necessário, enquanto utiliza o verificador para registrar os resultados da validação.
-
-
-📃 Licença
-Este projeto é licenciado sob os termos da Licença MIT. Consulte o arquivo LICENSE para obter detalhes sobre os direitos e limitações de uso. Sinta-se livre para usar, modificar e distribuir este projeto conforme os termos da licença.
-
-
-🙋‍♀️ Desenvolvido por
-Mirella Oliveira – GitHub (Idealizadora e desenvolvedora do projeto)
+👩‍💻 Desenvolvido por
+Mirella Oliveira
+Idealizadora e desenvolvedora
+🔗 GitHub: @mirellaoliveiraa
