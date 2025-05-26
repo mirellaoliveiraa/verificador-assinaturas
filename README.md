@@ -85,9 +85,7 @@ Indicação de assinatura
 4. (Opcional) Extrair textos dos PDFs
 Se quiser apenas visualizar o texto extraído dos PDFs (sem imagem), execute:
 
-bash
-Copiar
-Editar
+
 python scripts/extrair_textos.py
 🔐 Segurança e Privacidade
 🔒 100% local: Nenhum dado é enviado para a internet
